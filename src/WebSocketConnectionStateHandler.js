@@ -1,7 +1,3 @@
-const WebSocketMessageUtils = require("./WebSocketMessageUtils");
-
-const uuidv4 = require("uuid").v4;
-
 class WebSocketConnectionStateHandler {
   constructor(clients) {
     this.clients = clients;
@@ -10,7 +6,13 @@ class WebSocketConnectionStateHandler {
   handleNewConnection(ws, req) {
     const parsedUrl = new URL(req.url, "http://com.example");
 
-    const jobId = parsedUrl.searchParams.get("jobId") || uuidv4();
+    const jobId = parsedUrl.searchParams.get("jobId");
+
+    if (!jobId) {
+      ws.close();
+      return;
+    }
+
     ws._jobId = jobId;
 
     if (
