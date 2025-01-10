@@ -15,17 +15,6 @@ class WebSocketConnectionStateHandler {
 
     ws._jobId = jobId;
 
-    if (
-      parsedUrl.searchParams.has("jobId") &&
-      parsedUrl.searchParams.has("path-tracing-job")
-    ) {
-      this.clients.addPathTracingClient(
-        parsedUrl.searchParams.get("jobId"),
-        ws
-      );
-      return;
-    }
-
     this.clients.addClientToJob(jobId, ws);
   }
 
